@@ -13,7 +13,11 @@ Note that it will not work correctly if you transpile the main process JS files 
 ## Install
 
 ```sh
-npm install --save-dev electron-reloader
+npm install --save-dev electron-reloader-ts
+```
+or
+```sh
+yarn add electron-reloader-ts --dev
 ```
 
 *Requires Electron 5 or later.*
@@ -84,6 +88,17 @@ When the typescript file changes, the changed typescript file is compiled into J
 | `watch.options.globstar` |`boolean`|
 | `watch.options.flags` | `boolean` |
 > `watch.options` Please check [glob-to-regexp](https://github.com/fitzgen/glob-to-regexp) for details.
+
+- Usage
+
+```ts
+// typescript
+import reloader from "electron-reloader-ts";
+
+try {
+  reloader(module, {watch: {glob: 'src/**/*', options: {globstar: true}}});
+} catch {}
+```
 
 ## Tip
 
