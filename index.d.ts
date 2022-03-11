@@ -20,6 +20,19 @@ declare namespace electronReloader {
 		@default false
 		*/
 		readonly debug?: boolean;
+
+		/**
+		 When the typescript file changes, the changed typescript file is compiled into JavaScript.
+
+		 */
+		readonly watch?: {
+			glob: string[] | string;
+			options?: {
+				extended?: boolean;
+				globstar?: boolean;
+				flags?: boolean;
+			};
+		};
 	}
 }
 

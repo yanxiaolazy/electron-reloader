@@ -1,14 +1,14 @@
 {
-	"name": "electron-reloader",
+	"name": "electron-reloader-ts",
 	"version": "1.2.3",
 	"description": "Simple auto-reloading for Electron apps during development",
 	"license": "MIT",
-	"repository": "sindresorhus/electron-reloader",
-	"funding": "https://github.com/sponsors/sindresorhus",
+	"repository": "yanxiaolazy/electron-reloader",
+	"funding": "https://github.com/yanxiaolazy/electron-reloader",
 	"author": {
-		"name": "Sindre Sorhus",
-		"email": "sindresorhus@gmail.com",
-		"url": "https://sindresorhus.com"
+		"name": "yanxiaolazy",
+		"email": "1977735808@qq.com",
+		"url": "https://yanxiaolazy.github.io"
 	},
 	"scripts": {
 		"test": "xo && tsd",
@@ -35,7 +35,8 @@
 		"files",
 		"fs",
 		"dev",
-		"development"
+		"development",
+		"typescript"
 	],
 	"dependencies": {
 		"chalk": "^4.1.0",
@@ -47,6 +48,7 @@
 	"devDependencies": {
 		"@types/node": "^14.14.20",
 		"electron": "^11.2.0",
+		"glob-to-regexp": "^0.4.1",
 		"tsd": "^0.14.0",
 		"xo": "^0.37.1"
 	},

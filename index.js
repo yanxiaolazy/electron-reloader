@@ -7,6 +7,8 @@ const isDev = require('electron-is-dev');
 const dateTime = require('date-time');
 const chalk = require('chalk');
 const findUp = require('find-up');
+const childProcess = require('child_process');
+const globToRegExp = require('glob-to-regexp');
 
 function getMainProcessPaths(topModuleObject, cwd) {
 	const paths = new Set([topModuleObject.filename]);
@@ -29,6 +31,49 @@ function getMainProcessPaths(topModuleObject, cwd) {
 	getPaths(topModuleObject);
 
 	return paths;
+}
+
+function getGlob(watch) {
+	const options = watch.options || {};
+	if (Array.isArray(watch.glob)) {
+		// eslint-disable-next-line unicorn/no-array-reduce
+		return watch.glob.reduce((collect, pattern) => {
+			// 由globToRegExp内部去处理异常
+			const re = globToRegExp(pattern, options);
+
+			return collect.concat(re);
+		}, []);
+	}
+
+	return globToRegExp(watch.glob, watch.options);
+}
+
+function isWatchFile(watch, filePath) {
+	const re = getGlob(watch);
+
+	if (Array.isArray(re)) {
+		return re.some(pattern => pattern.test(filePath));
+	}
+
+	return re.test(filePath);
+}
+
+function transformFilePath(filePath) {
+	if (filePath) {
+		return filePath.replaceAll('\\', '/');
+	}
+
+	return filePath;
+}
+
+function compiler(cwd, watch, filePath) {
+	if (isWatchFile(watch, transformFilePath(filePath))) {
+		childProcess.exec('tsc', {cwd}, error => {
+			if (error) {
+				throw new Error(error);
+			}
+		});
+	}
 }
 
 module.exports = (moduleObject, options = {}) => {
@@ -81,6 +126,10 @@ module.exports = (moduleObject, options = {}) => {
 	watcher.on('change', filePath => {
 		if (options.debug) {
 			console.log('File changed:', chalk.bold(filePath), chalk.dim(`(${dateTime().split(' ')[1]})`));
+		}
+
+		if (options.watch) {
+			compiler(cwd, options.watch, filePath);
 		}
 
 		if (mainProcessPaths.has(path.join(cwd, filePath))) {

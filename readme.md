@@ -1,10 +1,14 @@
-# electron-reloader
+# electron-reloader-ts
 
 > Simple auto-reloading for Electron apps during development
 
 It *just works*. When files used in the main process are changed, the app is restarted, and when files used in the browser window are changed, the page is reloaded.
 
 Note that it will not work correctly if you transpile the main process JS files of your app, but it doesn't make sense to do that anyway.
+
+> On the basis of the [original project](https://github.com/sindresorhus/electron-reloader), the change monitoring of typescript file is added.
+> 
+> Please check the `watch` property for details.
 
 ## Install
 
@@ -67,6 +71,19 @@ Default: `false`
 Prints watched paths and when files change.
 
 Can be useful to make sure you set it up correctly.
+
+##### watch
+Type: `WatchOptions`
+
+When the typescript file changes, the changed typescript file is compiled into JavaScript.
+
+| property | type |
+|:----:|:----:|
+| `watch.glob` | `string[] \| string` |
+| `watch.options.extended `| `boolean` |
+| `watch.options.globstar` |`boolean`|
+| `watch.options.flags` | `boolean` |
+> `watch.options` Please check [glob-to-regexp](https://github.com/fitzgen/glob-to-regexp) for details.
 
 ## Tip
 
